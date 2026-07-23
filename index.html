@@ -1218,8 +1218,10 @@ const GEMINI_API_ROOT =
   "https://generativelanguage.googleapis.com/v1beta/models";
 const RSS_TO_JSON_URL = "https://api.rss2json.com/v1/api.json";
 const GENERAL_NEWS_LIMIT = 512;
+const GENERAL_DIGEST_LINES = 128;
+const GENERAL_DIGEST_MAX_CHARACTERS = 20_000;
 const GENERAL_CACHE_TTL_MS = 5 * 60_000;
-const GENERAL_CACHE_NAME = "muthur-general-news-v2";
+const GENERAL_CACHE_NAME = "muthur-general-news-v3";
 const USAGE_STORAGE_KEY = "muthur-gemini-paid-usage-v1";
 const GEMINI_INPUT_USD_PER_MILLION = 1.5;
 const GEMINI_OUTPUT_USD_PER_MILLION = 7.5;
@@ -2382,12 +2384,7 @@ function estimateDigestCapacity() {
   const paddingX =
     (Number.parseFloat(frameStyle.paddingLeft) || 0) +
     (Number.parseFloat(frameStyle.paddingRight) || 0);
-  const paddingY =
-    (Number.parseFloat(frameStyle.paddingTop) || 0) +
-    (Number.parseFloat(frameStyle.paddingBottom) || 0);
   const fontSize = Number.parseFloat(summaryStyle.fontSize) || 22;
-  const lineHeight =
-    Number.parseFloat(summaryStyle.lineHeight) || fontSize * 1.25;
   const canvas = document.createElement("canvas");
   const context = canvas.getContext("2d");
   let averageGlyphWidth = fontSize * 0.62;
@@ -2398,20 +2395,14 @@ function estimateDigestCapacity() {
   }
 
   const usableWidth = Math.max(200, dom.messageFrame.clientWidth - paddingX);
-  const fixedHeight =
-    dom.headline.getBoundingClientRect().height +
-    (dom.queryStatus.hidden ? 0 : dom.queryStatus.getBoundingClientRect().height) +
-    (dom.querySources.hidden
-      ? 0
-      : dom.querySources.getBoundingClientRect().height) +
-    82;
-  const usableHeight = Math.max(
-    lineHeight * 8,
-    dom.messageFrame.clientHeight - paddingY - fixedHeight,
-  );
   const columns = Math.max(24, Math.floor(usableWidth / averageGlyphWidth));
-  const rows = Math.max(8, Math.floor(usableHeight / lineHeight));
-  return Math.max(600, Math.min(5000, Math.floor(columns * rows * 0.93)));
+  return Math.max(
+    2_048,
+    Math.min(
+      GENERAL_DIGEST_MAX_CHARACTERS,
+      Math.floor(columns * GENERAL_DIGEST_LINES * 0.93),
+    ),
+  );
 }
 
 function representativeSources(records, limit = 8) {
@@ -2468,7 +2459,8 @@ async function showGeneralNews() {
       );
       digestCacheHit = true;
     } else {
-      dom.queryStatus.textContent += ` // DISPLAY LIMIT ${maxCharacters} CHARS`;
+      dom.queryStatus.textContent +=
+        ` // DISPLAY LIMIT ${maxCharacters} CHARS // ${GENERAL_DIGEST_LINES} LINES`;
       digest = await summarizeGeneralNewsDirect(
         corpus.records,
         maxCharacters,
@@ -2479,7 +2471,7 @@ async function showGeneralNews() {
       });
     }
     showQueryFrame(
-      `GENERAL NEWS // ${corpus.records.length}/${GENERAL_NEWS_LIMIT} SIGNALS // ${digestCacheHit ? "DIGEST CACHE HIT // ZERO NEW TOKENS" : corpus.cached ? "SOURCE CACHE HIT" : "LIVE FETCH"} // ${corpus.backend} // ${digest.length}/${maxCharacters} CHARS`,
+      `GENERAL NEWS // ${corpus.records.length}/${GENERAL_NEWS_LIMIT} SIGNALS // ${digestCacheHit ? "DIGEST CACHE HIT // ZERO NEW TOKENS" : corpus.cached ? "SOURCE CACHE HIT" : "LIVE FETCH"} // ${corpus.backend} // ${digest.length}/${maxCharacters} CHARS // ${GENERAL_DIGEST_LINES} LINES`,
       `GENERAL NEWS // ${corpus.records.length} RANKED SIGNALS`,
       digest,
       { digest: true },

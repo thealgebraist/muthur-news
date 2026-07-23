@@ -33,6 +33,18 @@ function cleanText(value, limit) {
   return text.slice(0, limit);
 }
 
+function cleanMultilineText(value, limit) {
+  return String(value ?? "")
+    .replace(/<[^>]*>/g, " ")
+    .replace(/\r/g, "")
+    .replace(/[\u0000-\u0009\u000b-\u001f\u007f]/g, " ")
+    .replace(/[^\S\n]+/g, " ")
+    .replace(/ *\n */g, "\n")
+    .replace(/\n{3,}/g, "\n\n")
+    .trim()
+    .slice(0, limit);
+}
+
 function cleanUrl(value) {
   try {
     const url = new URL(String(value ?? ""));
@@ -558,7 +570,7 @@ function sanitizeGeneralCache(value) {
         edition: cleanText(item?.edition, 40),
       })).filter((item) => item.title && item.url)
     : [];
-  const digestText = cleanText(value?.digest?.text, 5_000);
+  const digestText = cleanMultilineText(value?.digest?.text, 20_000);
   return {
     cachedAt: Date.now(),
     records,
@@ -566,7 +578,7 @@ function sanitizeGeneralCache(value) {
       ? {
           text: digestText,
           maxCharacters: Math.min(
-            5_000,
+            20_000,
             Math.max(0, Number(value?.digest?.maxCharacters) || 0),
           ),
         }
