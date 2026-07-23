@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "muthur-news-ai",
+  "main": "src/index.js",
+  "compatibility_date": "2026-07-23",
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://thealgebraist.github.io,http://localhost:9999,http://127.0.0.1:9999",
+    "CACHE_SECONDS": "300",
+    "CACHE_VERSION": "4",
+    "GEMINI_MODEL": "gemini-3.6-flash"
+  }
+}
