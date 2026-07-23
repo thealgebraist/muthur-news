@@ -7,12 +7,13 @@
 }
 
 :root {
-  --glass: #000601;
-  --phosphor: #55e768;
-  --phosphor-hot: #81f38e;
-  --phosphor-dim: #238b35;
-  --amber: #f0af35;
-  --red: #d94a36;
+  --glass: #000405;
+  --phosphor: #63b9bd;
+  --phosphor-hot: #c2e6d8;
+  --phosphor-dim: #1d6269;
+  --amber: #e5d3a4;
+  --red: #b52e41;
+  --blue: #5fbbef;
   --cell: 4px;
   font-family: "VT323", "Courier New", monospace;
   color: var(--phosphor);
@@ -32,7 +33,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   background:
-    radial-gradient(ellipse at 50% 42%, #001205 0%, var(--glass) 52%, #000 100%);
+    radial-gradient(ellipse at 50% 42%, #061116 0%, var(--glass) 52%, #000 100%);
   color: var(--phosphor);
   text-transform: uppercase;
 }
@@ -71,7 +72,7 @@ button {
       180deg,
       rgba(0, 0, 0, 0.08) 0,
       rgba(0, 0, 0, 0.08) 2px,
-      rgba(38, 100, 42, 0.07) 3px,
+      rgba(72, 134, 142, 0.07) 3px,
       rgba(0, 0, 0, 0.5) 4px
     );
 }
@@ -82,7 +83,7 @@ button {
   content: "";
   opacity: 0.35;
   background-image:
-    radial-gradient(circle, rgba(123, 255, 132, 0.18) 0 0.7px, transparent 0.9px);
+    radial-gradient(circle, rgba(132, 224, 224, 0.17) 0 0.7px, transparent 0.9px);
   background-size: 3px 3px;
 }
 
@@ -91,7 +92,7 @@ button {
   inset: -18% 0 auto;
   height: 13%;
   content: "";
-  background: linear-gradient(180deg, transparent, rgba(96, 255, 113, 0.07), transparent);
+  background: linear-gradient(180deg, transparent, rgba(110, 214, 220, 0.08), transparent);
   animation: beam 7.5s linear infinite;
 }
 
@@ -113,12 +114,53 @@ button {
 }
 
 .masthead {
+  position: relative;
   min-height: 118px;
   padding: 4px 12px 14px;
   display: flex;
   align-items: start;
   justify-content: space-between;
   border-bottom: 2px dashed var(--phosphor-dim);
+}
+
+.header-instruments {
+  display: flex;
+  align-items: start;
+  gap: 30px;
+}
+
+.lamp-bank {
+  display: flex;
+  gap: 11px;
+  padding-top: 7px;
+}
+
+.lamp {
+  width: 11px;
+  height: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  animation: lamp-jitter 3.6s steps(1, end) infinite;
+}
+
+.lamp-ivory {
+  color: #e9e3ca;
+}
+
+.lamp-red {
+  color: #d94b36;
+  animation-delay: -0.8s;
+}
+
+.lamp-amber {
+  color: #e5a731;
+  animation-delay: -1.7s;
+}
+
+.lamp-blue {
+  color: #4a9fd9;
+  animation-delay: -2.4s;
 }
 
 h1 {
@@ -169,7 +211,76 @@ h1 {
 
 .queue-panel,
 .transmission-panel {
+  isolation: isolate;
   border-right: 2px dashed var(--phosphor-dim);
+}
+
+.boot-overlay {
+  position: absolute;
+  z-index: 12;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  overflow: hidden;
+  background: #000;
+  color: #d8ebe4;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.boot-overlay > span {
+  position: relative;
+  z-index: 2;
+  display: none;
+  color: #e2e8df;
+  font-size: clamp(3rem, 7vw, 7rem);
+  line-height: 0.72;
+  letter-spacing: 0.07em;
+  text-align: center;
+  text-shadow:
+    3px 0 #6ca3c5,
+    -2px 0 #cd6584,
+    0 0 12px rgba(229, 236, 232, 0.65);
+  transform: scaleY(0.72);
+}
+
+.boot-bars {
+  position: absolute;
+  inset: 0;
+  display: none;
+  background:
+    linear-gradient(
+      174deg,
+      transparent 25%,
+      rgba(93, 187, 239, 0.95) 26% 30%,
+      transparent 31% 41%,
+      rgba(110, 196, 242, 0.86) 42% 48%,
+      transparent 49% 64%,
+      rgba(54, 127, 195, 0.78) 65% 70%,
+      transparent 71%
+    );
+  filter: blur(1px);
+}
+
+.transmission-panel[data-phase="blackout"] .boot-overlay,
+.transmission-panel[data-phase="scan"] .boot-overlay,
+.transmission-panel[data-phase="alert"] .boot-overlay {
+  opacity: 1;
+}
+
+.transmission-panel[data-phase="scan"] .boot-bars {
+  display: block;
+  animation: boot-bars 320ms steps(4, end) both;
+}
+
+.transmission-panel[data-phase="alert"] .boot-overlay {
+  background:
+    radial-gradient(ellipse at center, #a32946 0%, #77162d 58%, #26030d 100%);
+  animation: red-lock 180ms steps(2, end) both;
+}
+
+.transmission-panel[data-phase="alert"] .boot-overlay > span {
+  display: block;
 }
 
 .panel-heading {
@@ -307,13 +418,19 @@ h1 {
   min-height: 360px;
   flex-direction: column;
   justify-content: flex-start;
-  padding: 12px 0 28px;
+  padding: 34px 28px 36px;
+  border-top: 8px solid rgba(194, 230, 216, 0.78);
+  border-right: 5px solid rgba(194, 230, 216, 0.72);
+  border-bottom: 8px solid rgba(194, 230, 216, 0.78);
+  box-shadow:
+    0 0 9px rgba(117, 208, 210, 0.24),
+    inset 0 0 16px rgba(82, 173, 180, 0.035);
 }
 
 h2 {
   max-width: 44ch;
   margin: 0;
-  color: var(--amber);
+  color: var(--phosphor-hot);
   font-size: clamp(1.7rem, 2.6vw, 2.8rem);
   font-weight: 400;
   line-height: 1.02;
@@ -335,8 +452,20 @@ h2 {
   content: "> ";
 }
 
-.transmission-panel.switching .message-frame {
-  animation: data-in 430ms steps(4, end);
+.plot-target.typing::after {
+  display: inline-block;
+  width: 0.62ch;
+  height: 0.86em;
+  margin-left: 0.1ch;
+  content: "";
+  vertical-align: -0.04em;
+  background: currentColor;
+  box-shadow: 0 0 8px currentColor;
+  animation: plot-cursor 180ms steps(1, end) infinite;
+}
+
+.source-actions.plot-hidden {
+  visibility: hidden;
 }
 
 .source-actions {
@@ -506,18 +635,56 @@ h2 {
   }
 }
 
-@keyframes data-in {
-  0% {
-    opacity: 0;
-    transform: translateX(-8px);
+@keyframes lamp-jitter {
+  0%,
+  83%,
+  100% {
+    opacity: 0.95;
   }
-  38% {
+  84% {
     opacity: 0.3;
-    transform: translateX(3px);
+  }
+  87% {
+    opacity: 1;
+  }
+}
+
+@keyframes boot-bars {
+  0% {
+    transform: translateY(42%) scaleY(0.24);
+    opacity: 0;
+  }
+  35% {
+    transform: translateY(12%) scaleY(0.55);
+    opacity: 1;
+  }
+  75% {
+    transform: translateY(-8%) scaleY(1);
   }
   100% {
+    transform: translateY(-38%) scaleY(0.45);
+    opacity: 0.35;
+  }
+}
+
+@keyframes red-lock {
+  0% {
+    opacity: 0.1;
+    filter: brightness(2.3);
+  }
+  55% {
     opacity: 1;
-    transform: none;
+    filter: brightness(1.2);
+  }
+  100% {
+    opacity: 0.9;
+    filter: brightness(1);
+  }
+}
+
+@keyframes plot-cursor {
+  50% {
+    opacity: 0;
   }
 }
 
@@ -575,6 +742,11 @@ h2 {
     justify-items: start;
   }
 
+  .header-instruments {
+    width: 100%;
+    justify-content: space-between;
+  }
+
   .terminal-grid {
     min-height: 0;
     display: flex;
@@ -597,6 +769,7 @@ h2 {
 
   .message-frame {
     min-height: 360px;
+    padding-inline: 18px;
   }
 
   .summary {

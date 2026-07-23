@@ -20,9 +20,17 @@
           <h1>MU/TH/UR 6000&nbsp; // &nbsp;INTERFACE 2037</h1>
           <p class="subtitle">PUBLIC NEWS RELAY</p>
         </div>
-        <div class="clock-block" aria-label="Coordinated Universal Time">
-          <span>SYSTEM TIME (UTC)</span>
-          <time id="ship-clock">00:00:00</time>
+        <div class="header-instruments">
+          <div class="lamp-bank" aria-hidden="true">
+            <span class="lamp lamp-ivory"></span>
+            <span class="lamp lamp-red"></span>
+            <span class="lamp lamp-amber"></span>
+            <span class="lamp lamp-blue"></span>
+          </div>
+          <div class="clock-block" aria-label="Coordinated Universal Time">
+            <span>SYSTEM TIME (UTC)</span>
+            <time id="ship-clock">00:00:00</time>
+          </div>
         </div>
       </header>
 
@@ -40,6 +48,10 @@
         </aside>
 
         <article class="panel transmission-panel" aria-labelledby="headline">
+          <div class="boot-overlay" aria-hidden="true">
+            <div class="boot-bars"></div>
+            <span>MU/TH/UR<br>6000</span>
+          </div>
           <div class="panel-heading transmission-heading">
             <span>CURRENT TRANSMISSION</span>
             <span>RECORD <b id="sequence">0001</b></span>

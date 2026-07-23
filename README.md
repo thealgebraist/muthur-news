@@ -32,6 +32,11 @@ clearly identified and never presented as live news.
 - `R`: refresh the public feeds
 - `S`: toggle the short transition tone
 
+The sound option uses original Web Audio synthesis: a low electrical hum,
+power-up sweep, filtered noise, character ticks, and completion tones. Browsers
+require a key press or click before audio can start, so sound defaults to off.
+No audio from the film or reference video is bundled.
+
 The current generated visual concept is stored at
 `assets/muthur-news-concept-v2.png`.
 
