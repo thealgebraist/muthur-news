@@ -1,0 +1,125 @@
+:root.muthur-meet {
+  color-scheme: dark !important;
+  --muthur-cyan: #6bc3c7;
+  --muthur-hot: #d5ece1;
+  --muthur-dim: #1e656c;
+  --muthur-black: #000607;
+  --muthur-red: #d34543;
+  --muthur-amber: #d9a53e;
+}
+
+:root.muthur-meet body {
+  background: var(--muthur-black) !important;
+  color: var(--muthur-cyan) !important;
+  filter: contrast(1.08) saturate(0.72);
+}
+
+:root.muthur-meet body::before {
+  position: fixed;
+  z-index: 2147483646;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+  opacity: 0.48;
+  background:
+    radial-gradient(ellipse at center, transparent 51%, rgba(0, 0, 0, 0.5)),
+    repeating-linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.03) 0 2px,
+      rgba(91, 174, 180, 0.05) 3px,
+      rgba(0, 0, 0, 0.26) 4px
+    );
+}
+
+:root.muthur-meet body,
+:root.muthur-meet button,
+:root.muthur-meet input,
+:root.muthur-meet textarea {
+  font-family: "Courier New", monospace !important;
+  letter-spacing: 0.045em !important;
+}
+
+:root.muthur-meet [role="dialog"],
+:root.muthur-meet [role="menu"],
+:root.muthur-meet [role="listbox"] {
+  border: 1px solid var(--muthur-dim) !important;
+  border-radius: 0 !important;
+  background: rgba(0, 10, 12, 0.97) !important;
+  box-shadow: 0 0 20px rgba(91, 190, 197, 0.16) !important;
+}
+
+:root.muthur-meet button,
+:root.muthur-meet [role="button"] {
+  border-radius: 1px !important;
+}
+
+:root.muthur-meet .muthur-control {
+  outline: 1px solid var(--muthur-dim) !important;
+  outline-offset: -2px !important;
+  background-color: #061317 !important;
+  color: var(--muthur-hot) !important;
+  box-shadow: 0 0 8px rgba(107, 195, 199, 0.18) !important;
+}
+
+:root.muthur-meet .muthur-control[data-muthur-danger="true"] {
+  outline-color: var(--muthur-red) !important;
+  background-color: #2b090b !important;
+}
+
+:root.muthur-meet input,
+:root.muthur-meet textarea {
+  border-radius: 0 !important;
+  caret-color: var(--muthur-hot) !important;
+}
+
+#muthur-meet-header {
+  position: fixed;
+  z-index: 2147483645;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 34px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px dashed var(--muthur-dim);
+  color: var(--muthur-cyan);
+  background: rgba(0, 6, 7, 0.94);
+  font: 15px/1 "Courier New", monospace;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-shadow: 0 0 7px currentColor;
+  pointer-events: none;
+}
+
+#muthur-meet-header strong {
+  color: var(--muthur-hot);
+  font-weight: 400;
+}
+
+#muthur-meet-header .muthur-lamps {
+  display: inline-flex;
+  gap: 8px;
+}
+
+#muthur-meet-header i {
+  width: 8px;
+  height: 6px;
+  display: inline-block;
+  background: currentColor;
+  box-shadow: 0 0 6px currentColor;
+}
+
+#muthur-meet-header i:nth-child(1) { color: var(--muthur-hot); }
+#muthur-meet-header i:nth-child(2) { color: var(--muthur-red); }
+#muthur-meet-header i:nth-child(3) { color: var(--muthur-amber); }
+#muthur-meet-header i:nth-child(4) { color: #529dd3; }
+
+:root.muthur-meet body {
+  padding-top: 34px !important;
+}
+
+:root:not(.muthur-meet) #muthur-meet-header {
+  display: none !important;
+}

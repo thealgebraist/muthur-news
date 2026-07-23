@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta
+      name="description"
+      content="A MU/TH/UR-styled launch console for Google Meet."
+    >
+    <title>MU/TH/UR Communications Link</title>
+    <link rel="stylesheet" href="meet.css">
+  </head>
+  <body>
+    <div class="crt" aria-hidden="true"></div>
+
+    <main class="meet-shell">
+      <header class="meet-header">
+        <div>
+          <p class="eyebrow">WEYLAND-YUTANI // COMMUNICATIONS</p>
+          <h1>MU/TH/UR 6000</h1>
+          <p class="subhead">REMOTE PERSONNEL LINK</p>
+        </div>
+        <div class="instruments" aria-hidden="true">
+          <span class="lamp ivory"></span>
+          <span class="lamp red"></span>
+          <span class="lamp amber"></span>
+          <span class="lamp blue"></span>
+          <time id="meet-clock">00:00:00</time>
+        </div>
+      </header>
+
+      <section class="meet-grid">
+        <aside class="rail">
+          <p class="rail-label">LINK SEQUENCE</p>
+          <ol class="sequence">
+            <li class="active"><b>01</b> IDENTIFY CHANNEL</li>
+            <li><b>02</b> AUTHORIZE CAMERA</li>
+            <li><b>03</b> AUTHORIZE AUDIO</li>
+            <li><b>04</b> ESTABLISH LINK</li>
+          </ol>
+          <div class="signal-block">
+            <span>RELAY CONDITION</span>
+            <strong id="relay-state">STANDBY</strong>
+          </div>
+        </aside>
+
+        <section class="console" aria-labelledby="console-title">
+          <div class="console-heading">
+            <span id="console-title">GOOGLE MEET RELAY</span>
+            <span>CHANNEL 04-A</span>
+          </div>
+
+          <div class="scope" aria-hidden="true">
+            <div class="scope-grid"></div>
+            <div class="scope-beam"></div>
+            <div class="scope-target">
+              <span></span><span></span><span></span><span></span>
+            </div>
+            <p id="scope-readout">AWAITING COORDINATES</p>
+          </div>
+
+          <form id="meet-form" class="meet-form">
+            <label for="meeting-code">MEETING CODE OR GOOGLE MEET URL</label>
+            <div class="input-row">
+              <span aria-hidden="true">&gt;</span>
+              <input
+                id="meeting-code"
+                name="meeting-code"
+                type="text"
+                inputmode="url"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="ABC-DEF-GHI"
+                aria-describedby="input-help"
+              >
+              <span class="cursor" aria-hidden="true"></span>
+            </div>
+            <p id="input-help" class="input-help">
+              THE SECURE CALL OPENS AT MEET.GOOGLE.COM IN A NEW TAB.
+            </p>
+            <p id="form-error" class="form-error" role="alert"></p>
+
+            <div class="actions">
+              <button id="join-button" type="submit">ESTABLISH LINK [ENTER]</button>
+              <a href="https://meet.google.com/" target="_blank" rel="noopener noreferrer">
+                OPEN MEET HOME
+              </a>
+            </div>
+          </form>
+        </section>
+
+        <aside class="rail right-rail">
+          <p class="rail-label">TERMINAL STATUS</p>
+          <dl class="telemetry">
+            <div><dt>CAMERA</dt><dd>CONTROLLED BY MEET</dd></div>
+            <div><dt>MICROPHONE</dt><dd>CONTROLLED BY MEET</dd></div>
+            <div><dt>CIPHER</dt><dd>GOOGLE TRANSPORT</dd></div>
+            <div><dt>THEME LAYER</dt><dd>OPTIONAL</dd></div>
+          </dl>
+          <a
+            class="theme-link"
+            href="assets/muthur-meet-extension.zip"
+            download
+          >
+            DOWNLOAD MEET THEME LAYER
+          </a>
+          <p class="privacy-note">
+            THIS CONSOLE DOES NOT REQUEST CAMERA, MICROPHONE, OR GOOGLE ACCOUNT
+            ACCESS.
+          </p>
+        </aside>
+      </section>
+
+      <footer class="meet-footer">
+        <a href="index.html">[ESC] RETURN TO NEWS RELAY</a>
+        <button id="sound-toggle" type="button" aria-pressed="false">[S] SOUND OFF</button>
+        <span>USCSS NOSTROMO // COMMUNICATIONS READY</span>
+      </footer>
+    </main>
+
+    <script src="meet.js" defer></script>
+  </body>
+</html>

@@ -37,6 +37,19 @@ power-up sweep, filtered noise, character ticks, and completion tones. Browsers
 require a key press or click before audio can start, so sound defaults to off.
 No audio from the film or reference video is bundled.
 
+## Google Meet companion
+
+`meet.html` is a MU/TH/UR-styled launch console for Google Meet. Enter a Meet
+code or `meet.google.com` URL and it opens the real call in a separate tab, where
+Google continues to own authentication, camera, and microphone permissions.
+
+An optional unpacked Chrome extension is included in `meet-extension`. It adds
+the CRT treatment and instrument header directly to the real Meet page. A normal
+web page cannot read or restyle an embedded cross-origin Meet interface, so the
+extension is the only part that changes Meet itself. The site also provides
+`assets/muthur-meet-extension.zip` as a convenient download; unzip it before
+using Chrome's **Load unpacked** command.
+
 The current generated visual concept is stored at
 `assets/muthur-news-concept-v2.png`.
 

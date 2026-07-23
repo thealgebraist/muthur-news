@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "MU/TH/UR Meet Interface",
+  "version": "1.0.0",
+  "description": "Applies an original industrial CRT theme to Google Meet.",
+  "content_scripts": [
+    {
+      "matches": ["https://meet.google.com/*"],
+      "css": ["content.css"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "host_permissions": ["https://meet.google.com/*"]
+}
