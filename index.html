@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="dark">
+    <meta
+      name="description"
+      content="A MU/TH/UR-inspired live public-news terminal."
+    >
+    <title>MU/TH/UR News Relay</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <div class="crt" aria-hidden="true"></div>
+
+    <main class="terminal-shell">
+      <header class="masthead">
+        <div>
+          <h1>MU/TH/UR 6000&nbsp; // &nbsp;INTERFACE 2037</h1>
+          <p class="subtitle">PUBLIC NEWS RELAY</p>
+        </div>
+        <div class="clock-block" aria-label="Coordinated Universal Time">
+          <span>SYSTEM TIME (UTC)</span>
+          <time id="ship-clock">00:00:00</time>
+        </div>
+      </header>
+
+      <section class="terminal-grid">
+        <aside class="panel queue-panel" aria-labelledby="queue-title">
+          <div class="panel-heading">
+            <span id="queue-title">BUFFERED BULLETINS</span>
+            <span id="queue-count">04</span>
+          </div>
+          <ol id="bulletin-queue" class="bulletin-queue"></ol>
+          <div class="signal-row">
+            <span class="signal-pulse" aria-hidden="true"></span>
+            <span id="feed-mode">ACQUIRING SIGNAL</span>
+          </div>
+        </aside>
+
+        <article class="panel transmission-panel" aria-labelledby="headline">
+          <div class="panel-heading transmission-heading">
+            <span>CURRENT TRANSMISSION</span>
+            <span>RECORD <b id="sequence">0001</b></span>
+          </div>
+          <div class="transmission-meta">
+            <span id="source-label">SOURCE: INITIALIZING</span>
+            <time id="published-time">UTC / --:--</time>
+          </div>
+
+          <div class="message-frame">
+            <h2 id="headline">CONTACTING PUBLIC NETWORK</h2>
+            <p id="summary" class="summary" aria-live="polite">
+              Establishing news relay. Stand by for verified public transmission.
+            </p>
+          </div>
+
+          <div class="source-actions">
+            <a id="source-link" class="source-link disabled" href="#" target="_blank" rel="noopener noreferrer">
+              SOURCE LINK [ENTER]
+            </a>
+            <span id="source-domain">NO UPLINK</span>
+          </div>
+        </article>
+
+        <aside class="panel cycle-panel" aria-labelledby="cycle-title">
+          <div class="panel-heading">
+            <span id="cycle-title">NEXT TRANSMISSION</span>
+            <span>AUTO</span>
+          </div>
+
+          <div class="countdown" aria-label="Seconds until the next bulletin">
+            <div class="countdown-value">
+              <span id="countdown-seconds">15</span>
+              <small>15 SECOND CYCLE</small>
+            </div>
+          </div>
+
+          <dl class="network-list">
+            <div>
+              <dt>NETWORK STATUS</dt>
+              <dd id="network-status">SEARCHING</dd>
+            </div>
+            <div>
+              <dt>SOURCE LINKS</dt>
+              <dd id="source-count">00</dd>
+            </div>
+            <div>
+              <dt>LAST SYNC</dt>
+              <dd id="last-sync">--:--:--</dd>
+            </div>
+          </dl>
+
+          <button id="refresh-button" class="terminal-button" type="button">
+            RECALL NETWORK [R]
+          </button>
+        </aside>
+      </section>
+
+      <footer class="status-strip">
+        <div class="status-primary">
+          <span id="live-indicator" class="live-indicator"></span>
+          <strong id="terminal-state">NETWORK LINK ACTIVE</strong>
+        </div>
+        <div class="controls" aria-label="Terminal controls">
+          <button id="pause-button" type="button">[SPACE] HOLD</button>
+          <button id="next-button" type="button">[N] NEXT</button>
+          <button id="sound-button" type="button" aria-pressed="false">[S] SOUND OFF</button>
+        </div>
+        <div class="system-id">USCSS NOSTROMO 180924609</div>
+      </footer>
+    </main>
+
+    <noscript>
+      <p class="noscript">JAVASCRIPT REQUIRED FOR MU/TH/UR NEWS RELAY.</p>
+    </noscript>
+    <script src="app.js" defer></script>
+  </body>
+</html>
