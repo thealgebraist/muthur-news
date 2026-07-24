@@ -51,7 +51,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   background:
-    radial-gradient(ellipse at 50% 34%, #111918 0%, #050909 48%, #000 100%),
+    radial-gradient(ellipse at 50% 28%, #0b1110 0%, #020505 52%, #000 100%),
     var(--black);
   color: var(--phosphor);
   text-transform: uppercase;
@@ -83,7 +83,7 @@ button {
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  opacity: 0.27;
+  opacity: 0.2;
   background:
     repeating-linear-gradient(
       180deg,
@@ -115,13 +115,13 @@ button {
 
 .terminal-shell {
   position: relative;
-  width: min(1660px, calc(100% - 20px));
+  width: min(1760px, calc(100% - 12px));
   min-height: 100vh;
   margin: 0 auto;
-  padding: 24px 72px 18px;
+  padding: 14px 12px 12px;
   display: grid;
   grid-template-rows: auto 1fr auto;
-  gap: 18px;
+  gap: 12px;
   letter-spacing: 0.075em;
   filter: contrast(1.04);
   text-shadow: 0 0 4px color-mix(in srgb, currentColor 22%, transparent);
@@ -141,12 +141,12 @@ button {
 }
 
 .masthead {
-  min-height: 96px;
-  padding: 15px 20px 14px;
+  min-height: 92px;
+  padding: 18px 26px 16px;
   display: flex;
   align-items: start;
   justify-content: space-between;
-  gap: 32px;
+  gap: 40px;
   border: 1px solid #1b3532;
   background: #020707;
   box-shadow:
@@ -158,13 +158,13 @@ button {
 .brand-lockup {
   display: flex;
   align-items: start;
-  gap: 26px;
+  gap: 34px;
 }
 
 h1 {
   margin: 0;
   color: var(--phosphor-hot);
-  font-size: clamp(2.65rem, 4.1vw, 4.5rem);
+  font-size: clamp(2.65rem, 3.7vw, 4.15rem);
   font-weight: 400;
   line-height: 0.78;
   letter-spacing: 0.085em;
@@ -258,18 +258,21 @@ h1 {
 }
 
 .terminal-grid {
-  min-height: 620px;
-  margin-top: 4px;
-  padding: 20px 18px 18px;
+  min-height: 820px;
+  margin-top: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: minmax(230px, 2.25fr) minmax(530px, 6.5fr) minmax(220px, 2fr);
-  gap: clamp(22px, 2.6vw, 42px);
+  grid-template-columns:
+    clamp(190px, 18vw, 275px)
+    minmax(0, 1fr)
+    clamp(180px, 16vw, 245px);
+  gap: 0;
   border: 1px solid #172e2c;
-  border-radius: 24px;
+  border-radius: 0;
   background: #010606;
   box-shadow:
-    0 0 0 5px #020303,
-    0 0 0 7px #151b1a,
+    0 0 0 3px #020303,
+    0 0 0 4px #151b1a,
     inset 0 0 48px rgba(0, 0, 0, 0.88),
     inset 0 0 9px rgba(77, 139, 132, 0.11);
   overflow: hidden;
@@ -283,19 +286,19 @@ h1 {
 }
 
 .queue-panel {
-  padding-right: clamp(16px, 1.8vw, 28px);
+  padding: 26px 24px 20px;
   border-right: 1px solid var(--phosphor-dim);
 }
 
 .transmission-panel {
-  padding-right: clamp(18px, 2.4vw, 38px);
+  padding: 26px 28px 20px;
   display: grid;
-  grid-template-rows: auto auto auto minmax(380px, 1fr) auto;
+  grid-template-rows: auto auto auto minmax(700px, 1fr) auto;
   border-right: 1px solid var(--phosphor-dim);
 }
 
 .cycle-panel {
-  padding-left: 0;
+  padding: 26px 22px 20px;
 }
 
 .panel-heading {
@@ -335,8 +338,8 @@ h1 {
 .bulletin-queue li {
   counter-increment: bulletin;
   position: relative;
-  min-height: 132px;
-  padding: 21px 0 18px 48px;
+  min-height: 126px;
+  padding: 20px 0 18px 40px;
   display: grid;
   align-content: start;
   border-bottom: 1px solid var(--phosphor-faint);
@@ -598,8 +601,8 @@ h1 {
 }
 
 .transmission-meta {
-  min-height: 58px;
-  padding-top: 15px;
+  min-height: 44px;
+  padding-top: 12px;
   display: flex;
   align-items: start;
   justify-content: space-between;
@@ -610,13 +613,13 @@ h1 {
 
 .message-frame {
   position: relative;
-  min-height: 380px;
-  padding: 18px 22px 30px 26px;
+  min-height: 700px;
+  padding: 28px 12px 34px 10px;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   border-top: 1px solid var(--phosphor);
-  border-left: 1px solid var(--phosphor-dim);
+  border-left: 0;
 }
 
 .message-frame::before {
@@ -631,8 +634,8 @@ h1 {
 }
 
 .message-frame.digest-mode {
-  height: clamp(560px, 66vh, 820px);
-  min-height: 560px;
+  height: clamp(740px, 78vh, 980px);
+  min-height: 740px;
   overflow: hidden;
 }
 
@@ -643,10 +646,10 @@ h1 {
 }
 
 h2 {
-  max-width: 33ch;
+  max-width: 30ch;
   margin: 0;
   color: var(--phosphor-hot);
-  font-size: clamp(2rem, 3.1vw, 3.25rem);
+  font-size: clamp(2.35rem, 3.4vw, 3.7rem);
   font-weight: 400;
   line-height: 0.96;
   letter-spacing: 0.075em;
@@ -655,12 +658,13 @@ h2 {
 }
 
 .summary {
-  max-width: 57ch;
-  margin: 28px 0 0;
+  width: 100%;
+  max-width: 108ch;
+  margin: 22px 0 0;
   color: var(--phosphor);
-  font-size: clamp(1.13rem, 1.32vw, 1.38rem);
-  line-height: 1.28;
-  letter-spacing: 0.065em;
+  font-size: clamp(1.08rem, 1.22vw, 1.3rem);
+  line-height: 1.34;
+  letter-spacing: 0.045em;
   white-space: pre-line;
 }
 
@@ -716,14 +720,46 @@ h2 {
 }
 
 .source-actions {
-  min-height: 52px;
-  padding: 12px 0 0;
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 20px;
+  min-height: 0;
+  padding: 0;
+  display: grid;
   color: var(--phosphor-dim);
-  font-size: clamp(0.9rem, 1vw, 1.05rem);
+  font-size: clamp(0.84rem, 0.92vw, 0.98rem);
+}
+
+.reference-window {
+  height: 108px;
+  grid-template-rows: repeat(4, 1fr);
+  border: 1px solid var(--phosphor-dim);
+  overflow: hidden;
+}
+
+.reference-window > div {
+  min-width: 0;
+  padding: 4px 10px;
+  display: grid;
+  grid-template-columns: 112px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--phosphor-faint);
+  line-height: 1;
+}
+
+.reference-window > div:last-child {
+  border-bottom: 0;
+}
+
+.reference-window b {
+  color: var(--phosphor-dim);
+  font-weight: 400;
+}
+
+.reference-window a,
+.reference-window span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .source-actions.plot-hidden {
@@ -736,8 +772,7 @@ h2 {
 }
 
 .source-link::before {
-  content: "> ";
-  color: var(--cyan);
+  content: "";
 }
 
 .source-link:hover,
@@ -783,7 +818,7 @@ h2 {
 }
 
 .network-list div {
-  padding: 13px 0;
+  padding: 18px 0;
   border-bottom: 1px solid var(--phosphor-faint);
   font-size: clamp(0.92rem, 1vw, 1.05rem);
 }
@@ -829,8 +864,8 @@ h2 {
 }
 
 .status-strip {
-  min-height: 48px;
-  padding: 9px 12px 7px;
+  min-height: 58px;
+  padding: 10px 20px 8px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
@@ -859,13 +894,13 @@ h2 {
 .controls {
   display: flex;
   justify-content: center;
-  gap: clamp(10px, 2.3vw, 34px);
+  gap: clamp(10px, 1.8vw, 28px);
 }
 
 .controls button,
 .controls a {
-  min-width: 65px;
-  padding: 7px 9px 6px;
+  min-width: 92px;
+  padding: 8px 12px 7px;
   border: 1px solid var(--key-edge);
   color: var(--amber);
   background: var(--key-face);
@@ -918,6 +953,10 @@ h2 {
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.05),
     inset 0 0 18px #000;
+}
+
+.hardware-rail {
+  display: none;
 }
 
 .hardware-left {
@@ -1762,11 +1801,25 @@ h2 {
             <ol id="query-sources" class="query-sources" hidden></ol>
           </div>
 
-          <div class="source-actions">
-            <a id="source-link" class="source-link disabled" href="#" target="_blank" rel="noopener noreferrer">
-              SOURCE LINK [ENTER]
-            </a>
-            <span id="source-domain">NO UPLINK</span>
+          <div class="source-actions reference-window" aria-label="Four-line source reference">
+            <div>
+              <b>1&nbsp; SOURCE</b>
+              <a id="source-link" class="source-link disabled" href="#" target="_blank" rel="noopener noreferrer">
+                OPEN PRIMARY SOURCE [ENTER]
+              </a>
+            </div>
+            <div>
+              <b>2&nbsp; HOST</b>
+              <span id="source-domain">NO UPLINK</span>
+            </div>
+            <div>
+              <b>3&nbsp; TIME</b>
+              <span id="reference-time">UTC / --:--</span>
+            </div>
+            <div>
+              <b>4&nbsp; RECORD</b>
+              <span id="reference-record">0001 // PUBLIC SIGNAL</span>
+            </div>
           </div>
         </article>
 
@@ -2332,6 +2385,8 @@ const dom = {
   summary: document.querySelector("#summary"),
   sourceLink: document.querySelector("#source-link"),
   sourceDomain: document.querySelector("#source-domain"),
+  referenceTime: document.querySelector("#reference-time"),
+  referenceRecord: document.querySelector("#reference-record"),
   networkStatus: document.querySelector("#network-status"),
   sourceCount: document.querySelector("#source-count"),
   lastSync: document.querySelector("#last-sync"),
@@ -3833,6 +3888,9 @@ async function plotText(element, text, options) {
 
 function setBulletinLink(bulletin) {
   dom.sourceDomain.textContent = sourceDomain(bulletin.url);
+  dom.referenceTime.textContent = `UTC / ${displayDate(validDate(bulletin.publishedAt))}`;
+  dom.referenceRecord.textContent =
+    `${String(state.sequence).padStart(4, "0")} // PUBLIC SIGNAL`;
   dom.sourceLink.href = bulletin.url || "#";
   dom.sourceLink.classList.toggle("disabled", !bulletin.url);
   dom.sourceLink.setAttribute("aria-disabled", String(!bulletin.url));
