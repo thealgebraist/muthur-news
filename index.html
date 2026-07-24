@@ -28,6 +28,11 @@
   --amber: #c99c48;
   --red: #a84a43;
   --cyan: #3baab2;
+  --signal-green: #31ef36;
+  --metal: #090d0d;
+  --metal-edge: #28302e;
+  --key-face: #15150f;
+  --key-edge: #413b26;
   font-family: "VT323", "Courier New", monospace;
   color: var(--phosphor);
   background: var(--black);
@@ -45,7 +50,9 @@ body {
 body {
   margin: 0;
   overflow-x: hidden;
-  background: var(--black);
+  background:
+    radial-gradient(ellipse at 50% 34%, #111918 0%, #050909 48%, #000 100%),
+    var(--black);
   color: var(--phosphor);
   text-transform: uppercase;
 }
@@ -107,26 +114,45 @@ button {
 }
 
 .terminal-shell {
-  width: min(1540px, calc(100% - 64px));
+  position: relative;
+  width: min(1660px, calc(100% - 20px));
   min-height: 100vh;
   margin: 0 auto;
-  padding: 24px 0 18px;
+  padding: 24px 72px 18px;
   display: grid;
   grid-template-rows: auto 1fr auto;
   gap: 18px;
   letter-spacing: 0.075em;
   filter: contrast(1.04);
   text-shadow: 0 0 4px color-mix(in srgb, currentColor 22%, transparent);
+  border-inline: 1px solid var(--metal-edge);
+  background:
+    repeating-linear-gradient(
+      96deg,
+      rgba(255, 255, 255, 0.012) 0 1px,
+      transparent 1px 9px
+    ),
+    var(--metal);
+  box-shadow:
+    0 0 0 6px #020303,
+    0 0 0 8px #151b1a,
+    0 24px 80px #000,
+    inset 0 1px rgba(255, 255, 255, 0.08);
 }
 
 .masthead {
-  min-height: 92px;
-  padding: 0 0 13px;
+  min-height: 96px;
+  padding: 15px 20px 14px;
   display: flex;
   align-items: start;
   justify-content: space-between;
   gap: 32px;
-  border-bottom: 1px solid var(--phosphor);
+  border: 1px solid #1b3532;
+  background: #020707;
+  box-shadow:
+    inset 0 0 24px rgba(44, 98, 93, 0.12),
+    0 5px 0 #020303,
+    0 7px 0 #151a18;
 }
 
 .brand-lockup {
@@ -157,20 +183,39 @@ h1 {
 .header-instruments {
   display: flex;
   align-items: start;
-  gap: 24px;
+  gap: 30px;
 }
 
 .lamp-bank {
   display: flex;
-  gap: 8px;
-  padding-top: 4px;
+  align-items: end;
+  gap: 7px;
+  padding-top: 15px;
 }
 
 .lamp {
-  width: 7px;
-  height: 7px;
+  position: relative;
+  width: 37px;
+  height: 17px;
+  border: 1px solid #302d21;
   background: currentColor;
-  opacity: 0.8;
+  opacity: 0.88;
+  box-shadow:
+    0 0 8px color-mix(in srgb, currentColor 48%, transparent),
+    inset 0 0 0 4px #171711,
+    inset 0 0 0 6px color-mix(in srgb, currentColor 64%, #fff);
+}
+
+.lamp::before {
+  position: absolute;
+  right: -1px;
+  bottom: calc(100% + 5px);
+  left: -1px;
+  content: attr(data-label);
+  color: var(--phosphor-dim);
+  font-size: 0.72rem;
+  line-height: 1;
+  text-align: center;
 }
 
 .lamp-ivory {
@@ -197,6 +242,7 @@ h1 {
   color: var(--phosphor-dim);
   font-size: 0.95rem;
   line-height: 1;
+  padding-top: 5px;
 }
 
 .clock-block::before {
@@ -213,9 +259,20 @@ h1 {
 
 .terminal-grid {
   min-height: 620px;
+  margin-top: 4px;
+  padding: 20px 18px 18px;
   display: grid;
   grid-template-columns: minmax(230px, 2.25fr) minmax(530px, 6.5fr) minmax(220px, 2fr);
   gap: clamp(22px, 2.6vw, 42px);
+  border: 1px solid #172e2c;
+  border-radius: 24px;
+  background: #010606;
+  box-shadow:
+    0 0 0 5px #020303,
+    0 0 0 7px #151b1a,
+    inset 0 0 48px rgba(0, 0, 0, 0.88),
+    inset 0 0 9px rgba(77, 139, 132, 0.11);
+  overflow: hidden;
 }
 
 .panel {
@@ -471,6 +528,18 @@ h1 {
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: stretch;
   border-bottom: 1px solid var(--phosphor);
+  transition:
+    background 90ms steps(2, end),
+    border-color 90ms steps(2, end),
+    box-shadow 90ms steps(2, end);
+}
+
+.query-input-row:focus-within {
+  border-color: var(--red);
+  background: #28070d;
+  box-shadow:
+    inset 0 0 18px rgba(168, 74, 67, 0.18),
+    0 0 8px rgba(168, 74, 67, 0.12);
 }
 
 .query-prompt {
@@ -503,7 +572,7 @@ h1 {
 }
 
 #query-input:focus {
-  box-shadow: inset 0 -2px var(--cyan);
+  box-shadow: inset 0 -2px var(--red);
 }
 
 #query-submit {
@@ -761,12 +830,23 @@ h2 {
 
 .status-strip {
   min-height: 48px;
-  padding: 11px 0 0;
+  padding: 9px 12px 7px;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: 20px;
-  border-top: 1px solid var(--phosphor);
+  border: 1px solid #24271d;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.016) 0 1px,
+      transparent 1px 8px
+    ),
+    #070908;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.05),
+    0 -4px 0 #020303,
+    0 -6px 0 #161a18;
   font-size: clamp(0.9rem, 1vw, 1.05rem);
 }
 
@@ -784,13 +864,20 @@ h2 {
 
 .controls button,
 .controls a {
-  padding: 3px 4px;
-  border: 0;
-  color: var(--phosphor);
-  background: transparent;
+  min-width: 65px;
+  padding: 7px 9px 6px;
+  border: 1px solid var(--key-edge);
+  color: var(--amber);
+  background: var(--key-face);
   cursor: pointer;
   letter-spacing: 0.07em;
   text-decoration: none;
+  text-align: center;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.08),
+    inset 0 0 10px rgba(201, 156, 72, 0.05),
+    0 3px 0 #020202;
+  transform: translateY(-1px);
 }
 
 .controls button:disabled {
@@ -798,9 +885,417 @@ h2 {
   opacity: 0.36;
 }
 
+.controls button:active,
+.controls a:active {
+  box-shadow: inset 0 2px 7px #000;
+  transform: translateY(2px);
+}
+
 .system-id {
   color: var(--phosphor-dim);
   text-align: right;
+}
+
+.hardware-rail {
+  position: absolute;
+  z-index: 4;
+  top: 137px;
+  bottom: 82px;
+  width: 48px;
+  padding: 14px 7px;
+  display: grid;
+  grid-auto-rows: 34px;
+  align-content: start;
+  gap: 10px;
+  border: 1px solid #252b29;
+  background:
+    repeating-linear-gradient(
+      95deg,
+      rgba(255, 255, 255, 0.018) 0 1px,
+      transparent 1px 7px
+    ),
+    #090c0b;
+  box-shadow:
+    inset 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 0 18px #000;
+}
+
+.hardware-left {
+  left: 12px;
+}
+
+.hardware-right {
+  right: 12px;
+}
+
+.hardware-rail > span {
+  display: grid;
+  place-items: center;
+  border: 1px solid #4a4027;
+  color: var(--amber);
+  background: #18150d;
+  font-size: 0.78rem;
+  box-shadow:
+    inset 0 0 0 3px #080806,
+    inset 0 0 8px rgba(201, 156, 72, 0.18),
+    0 2px 0 #000;
+}
+
+.hardware-rail > span.rail-alert {
+  border-color: #4d2625;
+  color: #e65d4d;
+  background: #1b0909;
+}
+
+.hardware-vent {
+  height: 88px;
+  margin-top: 18px;
+  display: block;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      #010202 0 6px,
+      #171c1a 6px 9px
+    );
+}
+
+.hardware-knob {
+  width: 30px;
+  height: 30px;
+  margin: auto auto 0;
+  display: block;
+  border: 3px solid #1d2421;
+  border-radius: 50%;
+  background:
+    conic-gradient(from 20deg, #070808, #303633, #070808 42%, #171b19);
+  box-shadow:
+    0 0 0 1px #000,
+    inset 0 0 8px #000;
+}
+
+.system-intro {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  color: var(--signal-green);
+  background: #000;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  text-shadow:
+    0 0 4px currentColor,
+    0 0 12px color-mix(in srgb, currentColor 42%, transparent);
+}
+
+.system-intro[data-phase]:not([data-phase="idle"]) {
+  opacity: 1;
+  visibility: visible;
+}
+
+.system-intro::before {
+  position: absolute;
+  inset: 5vh 5vw;
+  content: "";
+  border: 1px solid #123f1d;
+  border-radius: 34px;
+  box-shadow:
+    0 0 0 8px #050807,
+    0 0 0 10px #1a211e,
+    inset 0 0 70px #000,
+    inset 0 0 12px rgba(49, 239, 54, 0.08);
+}
+
+.intro-crt-bank {
+  position: absolute;
+  inset: 16vh 16vw;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: clamp(18px, 4vw, 68px);
+}
+
+.intro-crt-bank span {
+  border: 1px solid #0d3518;
+  border-radius: 20px;
+  opacity: 0;
+  background:
+    repeating-linear-gradient(
+      180deg,
+      rgba(49, 239, 54, 0.06) 0 1px,
+      transparent 1px 4px
+    ),
+    #010a03;
+  box-shadow:
+    inset 0 0 24px #000,
+    0 0 9px rgba(49, 239, 54, 0.08);
+}
+
+.system-intro[data-phase="raster"] .intro-crt-bank span,
+.system-intro[data-phase="signal"] .intro-crt-bank span,
+.system-intro[data-phase="core"] .intro-crt-bank span,
+.system-intro[data-phase="identify"] .intro-crt-bank span,
+.system-intro[data-phase="release"] .intro-crt-bank span {
+  animation: intro-monitor 520ms steps(3, end) both;
+}
+
+.intro-crt-bank span:nth-child(2) {
+  animation-delay: 80ms !important;
+}
+
+.intro-crt-bank span:nth-child(3) {
+  animation-delay: 150ms !important;
+}
+
+.intro-crt-bank span:nth-child(4) {
+  animation-delay: 240ms !important;
+}
+
+.intro-crt-bank span:nth-child(5) {
+  animation-delay: 110ms !important;
+}
+
+.intro-crt-bank span:nth-child(6) {
+  animation-delay: 190ms !important;
+}
+
+.intro-crt-bank span:nth-child(7) {
+  animation-delay: 280ms !important;
+}
+
+.intro-crt-bank span:nth-child(8) {
+  animation-delay: 340ms !important;
+}
+
+.intro-diagnostic {
+  position: absolute;
+  width: min(32vw, 520px);
+  height: min(24vh, 250px);
+  border: 1px solid #7b1e28;
+  background: #270308;
+  opacity: 0;
+  box-shadow:
+    inset 0 0 25px #090001,
+    0 0 18px rgba(168, 74, 67, 0.13);
+}
+
+.system-intro[data-phase="signal"] .intro-diagnostic,
+.system-intro[data-phase="core"] .intro-diagnostic,
+.system-intro[data-phase="identify"] .intro-diagnostic {
+  opacity: 0.7;
+  animation: diagnostic-lock 400ms steps(3, end) both;
+}
+
+.intro-signal-bars {
+  position: absolute;
+  inset: 18vh 10vw;
+}
+
+.intro-signal-bars i {
+  position: absolute;
+  height: clamp(8px, 1.2vh, 15px);
+  display: block;
+  background: var(--signal-green);
+  box-shadow:
+    0 0 5px var(--signal-green),
+    0 0 18px rgba(49, 239, 54, 0.28);
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+}
+
+.intro-signal-bars i:nth-child(1) {
+  top: 10%;
+  left: 4%;
+  width: 36%;
+}
+
+.intro-signal-bars i:nth-child(2) {
+  top: 32%;
+  left: 28%;
+  width: 42%;
+}
+
+.intro-signal-bars i:nth-child(3) {
+  top: 54%;
+  left: 48%;
+  width: 39%;
+}
+
+.intro-signal-bars i:nth-child(4) {
+  top: 76%;
+  left: 72%;
+  width: 23%;
+}
+
+.system-intro[data-phase="signal"] .intro-signal-bars i,
+.system-intro[data-phase="core"] .intro-signal-bars i,
+.system-intro[data-phase="identify"] .intro-signal-bars i {
+  animation: signal-lock 360ms steps(4, end) both;
+}
+
+.intro-signal-bars i:nth-child(2) {
+  animation-delay: 90ms !important;
+}
+
+.intro-signal-bars i:nth-child(3) {
+  animation-delay: 180ms !important;
+}
+
+.intro-signal-bars i:nth-child(4) {
+  animation-delay: 270ms !important;
+}
+
+.intro-memory {
+  position: absolute;
+  z-index: 4;
+  inset: 8vh 12vw 7vh;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.985);
+}
+
+.system-intro[data-phase="core"] .intro-memory {
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1);
+  transition:
+    opacity 70ms steps(2, end),
+    transform 900ms cubic-bezier(0.2, 0.75, 0.2, 1);
+}
+
+.system-intro[data-phase="core"] .intro-crt-bank {
+  opacity: 0.07;
+  filter: blur(2px);
+  transition: opacity 120ms linear;
+}
+
+.system-intro[data-phase="core"] .intro-diagnostic {
+  opacity: 0.15;
+  filter: blur(2px);
+  transition: opacity 120ms linear;
+}
+
+.system-intro[data-phase="core"] .intro-signal-bars {
+  opacity: 0.04;
+  filter: blur(2px);
+  transition: opacity 120ms linear;
+}
+
+.intro-memory::after {
+  position: absolute;
+  inset: 11% 18% 15%;
+  content: "";
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    transparent 0 44%,
+    rgba(143, 255, 201, 0.17) 49%,
+    rgba(63, 255, 151, 0.55) 50%,
+    transparent 53%
+  );
+  opacity: 0;
+}
+
+.system-intro[data-phase="core"] .intro-memory::after {
+  animation: core-scan 820ms steps(14, end) both;
+}
+
+.memory-label,
+.memory-command {
+  position: relative;
+  z-index: 2;
+  width: min(76vw, 980px);
+  margin-inline: auto;
+  color: #4dff64;
+  font-size: clamp(0.85rem, 1.75vw, 1.55rem);
+  letter-spacing: 0.09em;
+}
+
+.memory-label {
+  display: flex;
+  justify-content: space-between;
+}
+
+.memory-command {
+  display: grid;
+  gap: 0.55em;
+}
+
+.memory-command span {
+  display: block;
+}
+
+.memory-command i {
+  display: inline-block;
+  width: 0.56em;
+  height: 1.02em;
+  margin-left: 0.12em;
+  vertical-align: -0.16em;
+  background: #4dff64;
+  box-shadow: 0 0 9px rgba(77, 255, 100, 0.72);
+  animation: memory-cursor 300ms steps(1, end) infinite;
+}
+
+#memory-core {
+  display: block;
+  width: min(62vw, 730px);
+  height: min(62vw, 68vh, 730px);
+  align-self: center;
+  justify-self: center;
+  filter:
+    drop-shadow(0 0 4px rgba(0, 255, 166, 0.72))
+    drop-shadow(0 0 16px rgba(22, 255, 129, 0.28));
+}
+
+.intro-mark {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  justify-items: center;
+  gap: 14px;
+  opacity: 0;
+}
+
+.system-intro[data-phase="identify"] .intro-mark,
+.system-intro[data-phase="release"] .intro-mark {
+  opacity: 1;
+}
+
+.intro-mark strong {
+  min-height: 0.8em;
+  color: var(--signal-green);
+  font-size: clamp(3rem, 8vw, 8rem);
+  font-weight: 400;
+  line-height: 0.8;
+  letter-spacing: 0.12em;
+}
+
+.intro-mark span {
+  color: #6ab66e;
+  font-size: clamp(1rem, 1.6vw, 1.55rem);
+  letter-spacing: 0.16em;
+}
+
+.intro-status {
+  position: absolute;
+  bottom: 9vh;
+  color: #65b66c;
+  font-size: clamp(0.9rem, 1.25vw, 1.2rem);
+  letter-spacing: 0.16em;
+  opacity: 0;
+}
+
+.system-intro[data-phase="raster"] .intro-status,
+.system-intro[data-phase="signal"] .intro-status,
+.system-intro[data-phase="core"] .intro-status,
+.system-intro[data-phase="identify"] .intro-status,
+.system-intro[data-phase="release"] .intro-status {
+  opacity: 1;
 }
 
 .noscript {
@@ -817,6 +1312,29 @@ h2 {
 @keyframes beam {
   to {
     transform: translateY(1300%);
+  }
+}
+
+@keyframes core-scan {
+  0% {
+    opacity: 0;
+    transform: translateY(-45%);
+  }
+  12% {
+    opacity: 1;
+  }
+  88% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(54%);
+  }
+}
+
+@keyframes memory-cursor {
+  50% {
+    opacity: 0;
   }
 }
 
@@ -859,9 +1377,65 @@ h2 {
   }
 }
 
+@keyframes intro-monitor {
+  0% {
+    opacity: 0;
+    filter: brightness(3);
+  }
+
+  38% {
+    opacity: 0.9;
+    filter: brightness(2.4);
+  }
+
+  100% {
+    opacity: 0.52;
+    filter: brightness(1);
+  }
+}
+
+@keyframes signal-lock {
+  0% {
+    opacity: 0;
+    transform: scaleX(0);
+  }
+
+  24% {
+    opacity: 1;
+    transform: scaleX(0.22);
+  }
+
+  100% {
+    opacity: 0.92;
+    transform: scaleX(1);
+  }
+}
+
+@keyframes diagnostic-lock {
+  0% {
+    opacity: 0;
+    transform: scaleY(0.04);
+  }
+
+  60% {
+    opacity: 0.85;
+    transform: scaleY(1);
+  }
+
+  100% {
+    opacity: 0.7;
+    transform: scaleY(0.82);
+  }
+}
+
 @media (max-width: 1080px) {
   .terminal-shell {
     width: min(100% - 40px, 1050px);
+    padding-inline: 0;
+  }
+
+  .hardware-rail {
+    display: none;
   }
 
   .terminal-grid {
@@ -902,12 +1476,16 @@ h2 {
     width: min(100% - 24px, 680px);
     padding-top: 14px;
     gap: 14px;
+    border-inline: 0;
+    background: transparent;
+    box-shadow: none;
   }
 
   .masthead {
     min-height: 124px;
     flex-direction: column;
     gap: 16px;
+    padding-inline: 10px;
   }
 
   .brand-lockup {
@@ -929,11 +1507,17 @@ h2 {
     justify-content: space-between;
   }
 
+  .lamp {
+    width: 29px;
+  }
+
   .terminal-grid {
     min-height: 0;
     display: flex;
     flex-direction: column;
     gap: 18px;
+    padding: 14px 10px;
+    border-radius: 16px;
   }
 
   .panel {
@@ -1021,8 +1605,22 @@ h2 {
     gap: 9px 18px;
   }
 
+  .controls button,
+  .controls a {
+    min-width: 0;
+  }
+
   .system-id {
     text-align: left;
+  }
+
+  .intro-crt-bank {
+    inset: 18vh 8vw;
+    gap: 12px;
+  }
+
+  .intro-mark strong {
+    font-size: clamp(2.4rem, 13vw, 4rem);
   }
 }
 
@@ -1039,8 +1637,50 @@ h2 {
   </head>
   <body>
     <div class="crt" aria-hidden="true"></div>
+    <div id="system-intro" class="system-intro" data-phase="idle" aria-hidden="true">
+      <div class="intro-crt-bank">
+        <span></span><span></span><span></span><span></span>
+        <span></span><span></span><span></span><span></span>
+      </div>
+      <div class="intro-diagnostic"></div>
+      <div class="intro-signal-bars">
+        <i></i><i></i><i></i><i></i>
+      </div>
+      <div class="intro-memory">
+        <div class="memory-label">
+          <span>COMPUTER</span>
+          <span>VER/2037.D</span>
+        </div>
+        <canvas id="memory-core" aria-hidden="true"></canvas>
+        <div class="memory-command">
+          <span>USER&gt; RELAY/7A-01</span>
+          <span>$ SYS:STATUS<i></i></span>
+        </div>
+      </div>
+      <div class="intro-mark">
+        <strong id="intro-title"></strong>
+        <span id="intro-subtitle"></span>
+      </div>
+      <div class="intro-status">SYSTEM HANDSHAKE // AUDIO LINK</div>
+    </div>
 
     <main class="terminal-shell">
+      <div class="hardware-rail hardware-left" aria-hidden="true">
+        <span>PWR</span>
+        <span>SYS</span>
+        <span class="rail-alert">NET</span>
+        <span>I/O</span>
+        <i class="hardware-vent"></i>
+        <i class="hardware-knob"></i>
+      </div>
+      <div class="hardware-rail hardware-right" aria-hidden="true">
+        <span>ACK</span>
+        <span class="rail-alert">ALRT</span>
+        <span>SYNC</span>
+        <span>HOLD</span>
+        <i class="hardware-vent"></i>
+        <i class="hardware-knob"></i>
+      </div>
       <header class="masthead">
         <div class="brand-lockup">
           <h1>MU/TH/UR 6000</h1>
@@ -1051,10 +1691,11 @@ h2 {
         </div>
         <div class="header-instruments">
           <div class="lamp-bank" aria-hidden="true">
-            <span class="lamp lamp-ivory"></span>
-            <span class="lamp lamp-red"></span>
-            <span class="lamp lamp-amber"></span>
-            <span class="lamp lamp-blue"></span>
+            <span class="lamp lamp-ivory" data-label="PWR"></span>
+            <span class="lamp lamp-amber" data-label="SYNC"></span>
+            <span class="lamp lamp-red" data-label="NET"></span>
+            <span class="lamp lamp-blue" data-label="CHAN"></span>
+            <span class="lamp lamp-amber" data-label="I/O"></span>
           </div>
           <div class="clock-block" aria-label="Coordinated Universal Time">
             <span>SYSTEM TIME (UTC)</span>
@@ -1185,6 +1826,7 @@ h2 {
           <button id="general-button" type="button">[G] GENERAL</button>
           <button id="key-button" type="button">[K] API KEY</button>
           <button id="sound-button" type="button" aria-pressed="false">[S] SOUND OFF</button>
+          <button id="intro-button" type="button">[I] INTRO</button>
           <a href="https://meet.google.com/" target="_blank" rel="noopener noreferrer">[M] COMMS</a>
         </div>
         <div class="system-id">RELAY 7A // NODE 12</div>
@@ -1202,6 +1844,266 @@ window.MUTHUR_CONFIG = Object.freeze({
   aiEndpoint: "",
   cloudflareCacheEndpoint: "",
 });
+    </script>
+    <script>
+(() => {
+  "use strict";
+
+  const vertexSource = `
+    attribute vec2 aCenter;
+    attribute vec2 aNormal;
+    attribute float aSide;
+    attribute float aOrder;
+    uniform float uWidth;
+    varying float vSide;
+    varying float vOrder;
+
+    void main() {
+      vec2 position = aCenter + aNormal * aSide * uWidth;
+      gl_Position = vec4(position, 0.0, 1.0);
+      vSide = aSide;
+      vOrder = aOrder;
+    }
+  `;
+
+  const fragmentSource = `
+    precision mediump float;
+    uniform vec3 uColor;
+    uniform float uAlpha;
+    uniform float uReveal;
+    uniform float uPulse;
+    varying float vSide;
+    varying float vOrder;
+
+    void main() {
+      if (vOrder > uReveal) discard;
+      float profile = exp(-3.4 * vSide * vSide);
+      float head = 1.0 - smoothstep(0.0, 0.035, uReveal - vOrder);
+      float energy = 0.72 + 0.28 * uPulse + head * 0.65;
+      gl_FragColor = vec4(uColor * energy, profile * uAlpha);
+    }
+  `;
+
+  function compile(gl, type, source) {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+      throw new Error(gl.getShaderInfoLog(shader) || "Circuit shader compilation failed");
+    }
+    return shader;
+  }
+
+  function programFor(gl) {
+    const program = gl.createProgram();
+    gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, vertexSource));
+    gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, fragmentSource));
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
+      throw new Error(gl.getProgramInfoLog(program) || "Circuit shader link failed");
+    }
+    return program;
+  }
+
+  function seededRandom(seed = 0x6d757468) {
+    let value = seed >>> 0;
+    return () => {
+      value ^= value << 13;
+      value ^= value >>> 17;
+      value ^= value << 5;
+      return (value >>> 0) / 4294967296;
+    };
+  }
+
+  function rotate([x, y], angle) {
+    const c = Math.cos(angle);
+    const s = Math.sin(angle);
+    return [x * c - y * s, x * s + y * c];
+  }
+
+  function buildCircuit() {
+    const random = seededRandom();
+    const segments = [];
+    const add = (from, to, order) => segments.push({ from, to, order });
+
+    for (let arm = 0; arm < 8; arm += 1) {
+      const angle = arm * Math.PI * 0.25;
+      const paths = 13;
+      for (let path = 0; path < paths; path += 1) {
+        let radius = 0.12 + path * 0.012;
+        let tangent = (path - (paths - 1) * 0.5) * 0.024;
+        let point = rotate([radius, tangent], angle);
+        const turns = 5 + Math.floor(random() * 4);
+
+        for (let turn = 0; turn < turns; turn += 1) {
+          const radialStep = 0.055 + random() * 0.075;
+          const nextRadius = Math.min(0.77, radius + radialStep);
+          let next = rotate([nextRadius, tangent], angle);
+          const revealOrder =
+            0.04 + turn * 0.095 + path * 0.008 + arm * 0.002;
+          add(point, next, revealOrder);
+          point = next;
+          radius = nextRadius;
+
+          const direction = (turn + path) % 2 === 0 ? 1 : -1;
+          tangent += direction * (0.018 + random() * 0.055);
+          const edge = 0.78 - Math.max(0, radius - 0.54) * 0.7;
+          tangent = Math.max(-edge, Math.min(edge, tangent));
+          next = rotate([radius, tangent], angle);
+          add(point, next, revealOrder + 0.045);
+          point = next;
+        }
+
+        if (path % 3 === 0) {
+          const pad = 0.018;
+          const left = rotate([radius, tangent - pad], angle);
+          const right = rotate([radius, tangent + pad], angle);
+          add(left, right, 0.18 + path * 0.018 + arm * 0.002);
+        }
+      }
+    }
+
+    const octagon = Array.from({ length: 8 }, (_, index) =>
+      rotate([0.79, 0], index * Math.PI * 0.25),
+    );
+    octagon.forEach((point, index) => {
+      add(point, octagon[(index + 1) % octagon.length], 0.78 + index * 0.008);
+    });
+
+    const cross = [
+      [[-0.8, -0.026], [0.8, -0.026]],
+      [[-0.8, 0.026], [0.8, 0.026]],
+      [[-0.026, -0.8], [-0.026, 0.8]],
+      [[0.026, -0.8], [0.026, 0.8]],
+    ];
+    cross.forEach(([from, to], index) => add(from, to, 0.16 + index * 0.018));
+    return segments;
+  }
+
+  function verticesFor(segments) {
+    const values = [];
+    for (const { from, to, order } of segments) {
+      const dx = to[0] - from[0];
+      const dy = to[1] - from[1];
+      const length = Math.hypot(dx, dy) || 1;
+      const normal = [-dy / length, dx / length];
+      const vertex = (point, side) => {
+        values.push(point[0], point[1], normal[0], normal[1], side, order);
+      };
+      vertex(from, -1);
+      vertex(from, 1);
+      vertex(to, 1);
+      vertex(from, -1);
+      vertex(to, 1);
+      vertex(to, -1);
+    }
+    return new Float32Array(values);
+  }
+
+  function create(canvas) {
+    const gl = canvas.getContext("webgl", {
+      alpha: true,
+      antialias: true,
+      premultipliedAlpha: false,
+    });
+    if (!gl) return null;
+
+    const program = programFor(gl);
+    const vertices = verticesFor(buildCircuit());
+    const buffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+    gl.useProgram(program);
+
+    const stride = 6 * Float32Array.BYTES_PER_ELEMENT;
+    const bind = (name, size, offset) => {
+      const location = gl.getAttribLocation(program, name);
+      gl.enableVertexAttribArray(location);
+      gl.vertexAttribPointer(
+        location,
+        size,
+        gl.FLOAT,
+        false,
+        stride,
+        offset * Float32Array.BYTES_PER_ELEMENT,
+      );
+    };
+    bind("aCenter", 2, 0);
+    bind("aNormal", 2, 2);
+    bind("aSide", 1, 4);
+    bind("aOrder", 1, 5);
+
+    const uniforms = {
+      width: gl.getUniformLocation(program, "uWidth"),
+      color: gl.getUniformLocation(program, "uColor"),
+      alpha: gl.getUniformLocation(program, "uAlpha"),
+      reveal: gl.getUniformLocation(program, "uReveal"),
+      pulse: gl.getUniformLocation(program, "uPulse"),
+    };
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE);
+
+    let frame = 0;
+    let active = false;
+    let startedAt = 0;
+    const vertexCount = vertices.length / 6;
+
+    const resize = () => {
+      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const width = Math.max(1, Math.floor(canvas.clientWidth * ratio));
+      const height = Math.max(1, Math.floor(canvas.clientHeight * ratio));
+      if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+      }
+      gl.viewport(0, 0, width, height);
+    };
+
+    const draw = (timestamp) => {
+      if (!active) return;
+      resize();
+      gl.clearColor(0, 0, 0, 0);
+      gl.clear(gl.COLOR_BUFFER_BIT);
+      const elapsed = (timestamp - startedAt) / 1000;
+      const reveal = Math.min(1.05, elapsed / 0.72);
+      const pulse = 0.5 + 0.5 * Math.sin(elapsed * 9);
+      gl.uniform1f(uniforms.reveal, reveal);
+      gl.uniform1f(uniforms.pulse, pulse);
+
+      const passes = [
+        [0.024, 0.055, [0.0, 0.95, 0.55]],
+        [0.011, 0.13, [0.0, 1.0, 0.72]],
+        [0.004, 0.58, [0.16, 1.0, 0.76]],
+        [0.0014, 1.0, [0.63, 1.0, 0.84]],
+      ];
+      for (const [width, alpha, color] of passes) {
+        gl.uniform1f(uniforms.width, width);
+        gl.uniform1f(uniforms.alpha, alpha);
+        gl.uniform3fv(uniforms.color, color);
+        gl.drawArrays(gl.TRIANGLES, 0, vertexCount);
+      }
+      frame = requestAnimationFrame(draw);
+    };
+
+    return {
+      start() {
+        cancelAnimationFrame(frame);
+        active = true;
+        startedAt = performance.now();
+        frame = requestAnimationFrame(draw);
+      },
+      stop() {
+        active = false;
+        cancelAnimationFrame(frame);
+        gl.clear(gl.COLOR_BUFFER_BIT);
+      },
+      resize,
+    };
+  }
+
+  window.MuthurCircuit = { create };
+})();
+
     </script>
     <script>
 "use strict";
@@ -1226,6 +2128,14 @@ const BOOT_TIMING = {
   scan: 420,
   alert: 420,
   settle: 100,
+};
+const INTRO_TIMING = {
+  blackout: 240,
+  raster: 680,
+  signal: 460,
+  core: 1_400,
+  identifyHold: 620,
+  release: 360,
 };
 
 const aiEndpoint = cleanEndpoint(
@@ -1429,6 +2339,7 @@ const dom = {
   pause: document.querySelector("#pause-button"),
   next: document.querySelector("#next-button"),
   sound: document.querySelector("#sound-button"),
+  intro: document.querySelector("#intro-button"),
   general: document.querySelector("#general-button"),
   key: document.querySelector("#key-button"),
   autoCycle: document.querySelector("#auto-cycle-toggle"),
@@ -1447,6 +2358,10 @@ const dom = {
   usageActualCost: document.querySelector("#usage-actual-cost"),
   usageEquivalentCost: document.querySelector("#usage-equivalent-cost"),
   usageMonthlyCost: document.querySelector("#usage-monthly-cost"),
+  systemIntro: document.querySelector("#system-intro"),
+  memoryCore: document.querySelector("#memory-core"),
+  introTitle: document.querySelector("#intro-title"),
+  introSubtitle: document.querySelector("#intro-subtitle"),
 };
 
 const state = {
@@ -1460,9 +2375,15 @@ const state = {
   fetching: false,
   sound: false,
   audio: null,
+  audioMaster: null,
   hum: null,
   plotController: null,
-  reducedMotion: window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  introController: null,
+  introPromise: null,
+  lastIntroAt: 0,
+  reducedMotion:
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches &&
+    new URLSearchParams(window.location.search).get("motion") !== "full",
   liveSources: 0,
   aiCondensed: false,
   querying: false,
@@ -2768,6 +3689,100 @@ function waitForPlot(milliseconds, signal) {
   });
 }
 
+async function runSystemIntro({ withSound = false, force = false } = {}) {
+  const now = Date.now();
+  if (
+    !force &&
+    state.lastIntroAt > 0 &&
+    now - state.lastIntroAt < NETWORK_REFRESH_MS - 1_000
+  ) {
+    return false;
+  }
+
+  if (force) {
+    state.introController?.abort();
+  } else if (state.introPromise) {
+    return state.introPromise;
+  }
+
+  const controller = new AbortController();
+  const { signal } = controller;
+  state.introController = controller;
+  state.lastIntroAt = now;
+
+  const sequence = async () => {
+    const circuit = window.MuthurCircuit?.create(dom.memoryCore);
+    dom.introTitle.textContent = "";
+    dom.introSubtitle.textContent = "";
+    dom.systemIntro.dataset.phase = "blackout";
+
+    if (withSound && state.sound) {
+      introSequenceSound();
+    }
+
+    try {
+      if (state.reducedMotion) {
+        circuit?.start();
+        dom.systemIntro.dataset.phase = "core";
+        if (withSound && state.sound) memoryCoreSound();
+        if (!(await waitForPlot(820, signal))) return false;
+        circuit?.stop();
+        dom.introTitle.textContent = "MU/TH/UR 6000";
+        dom.introSubtitle.textContent = "INTERFACE 2037 // PUBLIC NEWS RELAY";
+        dom.systemIntro.dataset.phase = "identify";
+        return await waitForPlot(420, signal);
+      }
+
+      if (!(await waitForPlot(INTRO_TIMING.blackout, signal))) return false;
+      dom.systemIntro.dataset.phase = "raster";
+
+      if (!(await waitForPlot(INTRO_TIMING.raster, signal))) return false;
+      dom.systemIntro.dataset.phase = "signal";
+
+      if (!(await waitForPlot(INTRO_TIMING.signal, signal))) return false;
+      dom.systemIntro.dataset.phase = "core";
+      circuit?.start();
+      if (withSound && state.sound) memoryCoreSound();
+
+      if (!(await waitForPlot(INTRO_TIMING.core, signal))) return false;
+      circuit?.stop();
+      dom.systemIntro.dataset.phase = "identify";
+
+      const mark = "MU/TH/UR 6000";
+      for (let index = 0; index < mark.length; index += 1) {
+        if (signal.aborted) return false;
+        const character = mark[index];
+        dom.introTitle.textContent += character;
+        introGlyphClonk(character, index);
+        if (!(await waitForPlot(character === " " ? 34 : 68, signal))) {
+          return false;
+        }
+      }
+
+      dom.introSubtitle.textContent = "INTERFACE 2037 // PUBLIC NEWS RELAY";
+      relayClick(0, 1.1);
+      if (!(await waitForPlot(INTRO_TIMING.identifyHold, signal))) return false;
+
+      dom.systemIntro.dataset.phase = "release";
+      return await waitForPlot(INTRO_TIMING.release, signal);
+    } finally {
+      circuit?.stop();
+      if (state.introController === controller) {
+        dom.systemIntro.dataset.phase = "idle";
+      }
+    }
+  };
+
+  state.introPromise = sequence().finally(() => {
+    if (state.introController === controller) {
+      state.introController = null;
+      state.introPromise = null;
+    }
+  });
+
+  return state.introPromise;
+}
+
 function plotDelay(character, base, variance) {
   const jitter = Math.random() * variance;
   if (/[.!?:;]/.test(character)) return base + jitter + 95;
@@ -2777,7 +3792,7 @@ function plotDelay(character, base, variance) {
 }
 
 async function plotText(element, text, options) {
-  const { base, variance, signal } = options;
+  const { base, variance, signal, soundProfile = "data" } = options;
   element.textContent = "";
   element.setAttribute("aria-label", text);
   element.classList.add("plot-target", "typing");
@@ -2790,7 +3805,7 @@ async function plotText(element, text, options) {
 
     const character = text[index];
     element.textContent += character;
-    glyphTick(character, index);
+    glyphTick(character, index, soundProfile);
 
     if (index % 5 === 0 && typeof element.animate === "function") {
       element.animate(
@@ -2846,16 +3861,8 @@ async function animateBulletin(bulletin, controller, showBoot) {
   dom.sourceActions.classList.add("plot-hidden");
 
   if (showBoot) {
-    dom.panel.dataset.phase = "blackout";
-    powerSequenceSound();
-    if (!(await waitForPlot(BOOT_TIMING.blackout, signal))) return;
-
-    dom.panel.dataset.phase = "scan";
-    if (!(await waitForPlot(BOOT_TIMING.scan, signal))) return;
-
-    dom.panel.dataset.phase = "alert";
-    alertLockSound();
-    if (!(await waitForPlot(BOOT_TIMING.alert, signal))) return;
+    await runSystemIntro({ withSound: state.sound });
+    if (signal.aborted) return;
   }
 
   dom.panel.dataset.phase = "live";
@@ -2863,8 +3870,18 @@ async function animateBulletin(bulletin, controller, showBoot) {
   if (!(await waitForPlot(showBoot ? BOOT_TIMING.settle : 30, signal))) return;
 
   const metadataResults = await Promise.all([
-    plotText(dom.sourceLabel, sourceText, { base: 23, variance: 14, signal }),
-    plotText(dom.publishedTime, timeText, { base: 19, variance: 11, signal }),
+    plotText(dom.sourceLabel, sourceText, {
+      base: 23,
+      variance: 14,
+      signal,
+      soundProfile: "metadata",
+    }),
+    plotText(dom.publishedTime, timeText, {
+      base: 19,
+      variance: 11,
+      signal,
+      soundProfile: "metadata",
+    }),
   ]);
   if (signal.aborted || metadataResults.includes(false)) return;
 
@@ -2873,6 +3890,7 @@ async function animateBulletin(bulletin, controller, showBoot) {
       base: 42,
       variance: 24,
       signal,
+      soundProfile: "headline",
     }))
   ) {
     return;
@@ -2885,6 +3903,7 @@ async function animateBulletin(bulletin, controller, showBoot) {
       base: 10,
       variance: 7,
       signal,
+      soundProfile: "body",
     }))
   ) {
     return;
@@ -2972,10 +3991,27 @@ function toggleSound() {
   if (state.sound) {
     ensureAudio();
     void state.audio.resume();
+    state.audioMaster.gain.cancelScheduledValues(state.audio.currentTime);
+    state.audioMaster.gain.setValueAtTime(0.0001, state.audio.currentTime);
+    state.audioMaster.gain.exponentialRampToValueAtTime(
+      0.78,
+      state.audio.currentTime + 0.12,
+    );
     startHum();
-    powerSequenceSound();
+    void runSystemIntro({ withSound: true, force: true });
   } else {
     stopHum();
+    if (state.audioMaster && state.audio) {
+      state.audioMaster.gain.cancelScheduledValues(state.audio.currentTime);
+      state.audioMaster.gain.setValueAtTime(
+        Math.max(state.audioMaster.gain.value, 0.0001),
+        state.audio.currentTime,
+      );
+      state.audioMaster.gain.exponentialRampToValueAtTime(
+        0.0001,
+        state.audio.currentTime + 0.08,
+      );
+    }
   }
 }
 
@@ -2983,32 +4019,51 @@ function ensureAudio() {
   if (state.audio) return state.audio;
   const BrowserAudioContext = window.AudioContext || window.webkitAudioContext;
   state.audio = new BrowserAudioContext();
+  const master = state.audio.createGain();
+  const compressor = state.audio.createDynamicsCompressor();
+  master.gain.value = 0.78;
+  compressor.threshold.value = -24;
+  compressor.knee.value = 18;
+  compressor.ratio.value = 5;
+  compressor.attack.value = 0.004;
+  compressor.release.value = 0.18;
+  master.connect(compressor).connect(state.audio.destination);
+  state.audioMaster = master;
   return state.audio;
 }
 
-function tone(frequency, duration, gainValue, type = "square", endFrequency = null) {
+function tone(
+  frequency,
+  duration,
+  gainValue,
+  type = "square",
+  endFrequency = null,
+  startDelay = 0,
+) {
   if (!state.sound) return;
   const context = ensureAudio();
+  const startAt = context.currentTime + Math.max(0, startDelay);
   const oscillator = context.createOscillator();
   const gain = context.createGain();
   oscillator.type = type;
-  oscillator.frequency.setValueAtTime(frequency, context.currentTime);
+  oscillator.frequency.setValueAtTime(frequency, startAt);
   if (endFrequency) {
     oscillator.frequency.exponentialRampToValueAtTime(
       endFrequency,
-      context.currentTime + duration,
+      startAt + duration,
     );
   }
-  gain.gain.setValueAtTime(gainValue, context.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + duration);
-  oscillator.connect(gain).connect(context.destination);
-  oscillator.start();
-  oscillator.stop(context.currentTime + duration);
+  gain.gain.setValueAtTime(gainValue, startAt);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+  oscillator.connect(gain).connect(state.audioMaster);
+  oscillator.start(startAt);
+  oscillator.stop(startAt + duration);
 }
 
-function noiseBurst(duration = 0.12, gainValue = 0.012) {
+function noiseBurst(duration = 0.12, gainValue = 0.012, options = {}) {
   if (!state.sound) return;
   const context = ensureAudio();
+  const startAt = context.currentTime + Math.max(0, options.startDelay ?? 0);
   const frameCount = Math.ceil(context.sampleRate * duration);
   const buffer = context.createBuffer(1, frameCount, context.sampleRate);
   const samples = buffer.getChannelData(0);
@@ -3020,13 +4075,13 @@ function noiseBurst(duration = 0.12, gainValue = 0.012) {
   const filter = context.createBiquadFilter();
   const gain = context.createGain();
   source.buffer = buffer;
-  filter.type = "bandpass";
-  filter.frequency.value = 1280;
-  filter.Q.value = 0.7;
-  gain.gain.setValueAtTime(gainValue, context.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.0001, context.currentTime + duration);
-  source.connect(filter).connect(gain).connect(context.destination);
-  source.start();
+  filter.type = options.type ?? "bandpass";
+  filter.frequency.value = options.frequency ?? 1280;
+  filter.Q.value = options.q ?? 0.7;
+  gain.gain.setValueAtTime(gainValue, startAt);
+  gain.gain.exponentialRampToValueAtTime(0.0001, startAt + duration);
+  source.connect(filter).connect(gain).connect(state.audioMaster);
+  source.start(startAt);
 }
 
 function startHum() {
@@ -3048,7 +4103,7 @@ function startHum() {
 
   low.connect(filter);
   harmonic.connect(filter);
-  filter.connect(master).connect(context.destination);
+  filter.connect(master).connect(state.audioMaster);
   low.start();
   harmonic.start();
   state.hum = { master, oscillators: [low, harmonic] };
@@ -3079,10 +4134,88 @@ function alertLockSound() {
   window.setTimeout(() => tone(1140, 0.05, 0.009, "square"), 74);
 }
 
-function glyphTick(character, index) {
-  if (!state.sound || character === " " || index % 3 !== 0) return;
-  const frequency = 840 + ((character.charCodeAt(0) * 17) % 260);
-  tone(frequency, 0.018, 0.0035, "square");
+function mechanicalClonk(startDelay = 0, intensity = 1) {
+  if (!state.sound) return;
+  noiseBurst(0.045, 0.0042 * intensity, {
+    startDelay,
+    type: "lowpass",
+    frequency: 520,
+    q: 0.55,
+  });
+  tone(84, 0.085, 0.0048 * intensity, "sine", 46, startDelay);
+  tone(1120, 0.012, 0.0016 * intensity, "square", null, startDelay + 0.004);
+}
+
+function relayClick(startDelay = 0, intensity = 1) {
+  if (!state.sound) return;
+  noiseBurst(0.026, 0.0028 * intensity, {
+    startDelay,
+    frequency: 2100,
+    q: 1.5,
+  });
+  tone(1450, 0.014, 0.0015 * intensity, "square", null, startDelay);
+}
+
+function introSequenceSound() {
+  if (!state.sound) return;
+  mechanicalClonk(0, 1.5);
+  noiseBurst(0.42, 0.009, {
+    startDelay: 0.08,
+    type: "lowpass",
+    frequency: 920,
+    q: 0.35,
+  });
+  tone(38, 0.72, 0.012, "sawtooth", 76, 0.04);
+  relayClick(0.36, 1.1);
+  relayClick(0.49, 0.9);
+  relayClick(0.63, 1.2);
+  relayClick(0.78, 0.95);
+  noiseBurst(0.5, 0.0085, {
+    startDelay: 0.88,
+    frequency: 3400,
+    q: 0.55,
+  });
+  mechanicalClonk(1.17, 1.25);
+  tone(172, 0.32, 0.0065, "square", 92, 1.18);
+}
+
+function memoryCoreSound() {
+  if (!state.sound) return;
+  mechanicalClonk(0, 1.35);
+  for (let index = 0; index < 7; index += 1) {
+    relayClick(0.08 + index * 0.105, 0.72 + (index % 3) * 0.16);
+    tone(
+      180 + index * 76,
+      0.045,
+      0.0025,
+      "square",
+      null,
+      0.09 + index * 0.105,
+    );
+  }
+  noiseBurst(0.74, 0.0065, {
+    startDelay: 0.06,
+    type: "bandpass",
+    frequency: 2750,
+    q: 0.7,
+  });
+  mechanicalClonk(0.86, 1.2);
+  tone(920, 0.12, 0.004, "sine", 460, 0.88);
+}
+
+function introGlyphClonk(character, index) {
+  if (!state.sound || character === " ") return;
+  mechanicalClonk(0, index % 2 === 0 ? 0.78 : 0.58);
+}
+
+function glyphTick(character, index, profile = "data") {
+  if (!state.sound || character === " ") return;
+  const cadence =
+    profile === "headline" ? 1 : profile === "body" ? 2 : 3;
+  if (index % cadence !== 0) return;
+  const intensity =
+    profile === "headline" ? 0.58 : profile === "body" ? 0.26 : 0.36;
+  mechanicalClonk(0, /[.!?:;]/.test(character) ? intensity * 1.35 : intensity);
 }
 
 function completionSound() {
@@ -3115,6 +4248,10 @@ dom.next.addEventListener("click", nextBulletin);
 dom.general.addEventListener("click", showGeneralNews);
 dom.key.addEventListener("click", configureGeminiKey);
 dom.sound.addEventListener("click", toggleSound);
+dom.intro.addEventListener("click", () => {
+  relayClick(0, 0.8);
+  void runSystemIntro({ withSound: state.sound, force: true });
+});
 dom.autoCycle.addEventListener("change", () => {
   setAutoCycle(dom.autoCycle.checked);
 });
@@ -3145,6 +4282,9 @@ document.addEventListener("keydown", (event) => {
     refreshNetwork();
   } else if (event.key.toLowerCase() === "s") {
     toggleSound();
+  } else if (event.key.toLowerCase() === "i") {
+    event.preventDefault();
+    void runSystemIntro({ withSound: state.sound, force: true });
   }
 });
 
@@ -3156,6 +4296,7 @@ updateClock();
 window.setInterval(updateClock, 1000);
 window.setInterval(refreshNetwork, NETWORK_REFRESH_MS);
 requestAnimationFrame(updateCycle);
+void runSystemIntro({ withSound: false, force: true });
 refreshNetwork();
 
     </script>
